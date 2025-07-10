@@ -1,0 +1,35 @@
+var libxmljs = require("libxmljs");
+var libxmljs2 = require("libxmljs2");
+
+module.exports.foo =  function(req, res) {
+
+	// {fact rule=xml-external-entity@v1.0 defects=1}
+	// ruleid: express-libxml-noent
+	libxmljs.parseXmlString(req.files.products.data.toString('utf8'), {noent:true,noblanks:true})
+	// {/fact}
+
+	// {fact rule=xml-external-entity@v1.0 defects=1}
+	// ruleid: express-libxml-noent
+	libxmljs.parseXml(req.files.products.data.toString('utf8'), {noent:true,noblanks:true})
+	// {/fact}
+
+	// {fact rule=xml-external-entity@v1.0 defects=0}
+	// ok: express-libxml-noent
+	libxmljs.parseXml(req.files.products.data.toString('utf8'), {noent:false,noblanks:true})
+	// {/fact}
+
+	// {fact rule=xml-external-entity@v1.0 defects=1}
+	// ruleid: express-libxml-noent
+	libxmljs2.parseXmlString(req.body, {noent:true,noblanks:true})
+	// {/fact}
+
+	// {fact rule=xml-external-entity@v1.0 defects=1}
+	// ruleid: express-libxml-noent
+	libxmljs2.parseXml(req.body, {noent:true,noblanks:true})
+	// {/fact}
+
+	// {fact rule=xml-external-entity@v1.0 defects=0}
+	// ok: express-libxml-noent
+	libxmljs2.parseXml(req.body, {noent:false,noblanks:true})
+	// {/fact}
+}
