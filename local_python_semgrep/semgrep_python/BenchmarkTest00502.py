@@ -1,0 +1,30 @@
+#{fact rule=cross-site-scripting@v1.0 defects=0}
+
+# -*- coding: utf-8 -*-
+import os
+import sqlite3
+
+from flask import Flask
+from flask import redirect
+from flask import request
+from flask import session
+from jinja2 import Template
+
+app = Flask(__name__)
+
+
+@app.route("/loginpage5")
+def render_login_page5():
+    thing = "blah"
+    # same, now ok thx to the constant propagation
+    # ok:directly-returned-format-string
+    return f'''
+{thing}
+<form method="POST" style="margin: 60px auto; width: 140px;">
+    <p><input name="username" type="text" /></p>
+    <p><input name="password" type="password" /></p>
+    <p><input value="Login" type="submit" /></p>
+</form>
+    '''
+
+#{/fact}
