@@ -12,6 +12,7 @@ import (
 )
 
 func awsUncheckedBatchFailuresNoncompliant(topicARN string, cfg aws.Config) {
+	// Initialize SNS client with the provided AWS configuration
 	client := sns.NewFromConfig(cfg)
 
 	// Noncompliant: Batch operation is performed without handling error.
