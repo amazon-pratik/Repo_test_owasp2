@@ -14,16 +14,27 @@ import (
 func awsUncheckedBatchFailuresCompliant(topicARN string, cfg aws.Config) {
 	client := sns.NewFromConfig(cfg)
 
+	// Compliant: Batch operation is performed with proper error handling.
 	output, err := client.PublishBatch(context.TODO(), &sns.PublishBatchInput{
 		TopicArn: &topicARN,
 	})
-
-	// Compliant: Batch operation is performed with error handling.
+	
 	if err != nil {
-		fmt.Println("Error publishing batch:", err)
+		fmt.Printf("Error publishing batch: %v\n", err)
 		return
 	}
+	
+	// Check for failed entries
+	if len(output.Failed) > 0 {
+		fmt.Printf("Some messages failed to publish: %d failures\n", len(output.Failed))
+		for _, failure := range output.Failed {
+			fmt.Printf("Message ID: %s, Error: %s, Code: %s\n", 
+				*failure.Id, 
+				*failure.ErrorMessage, 
+				*failure.ErrorCode)
+		}
+	}
 
-	fmt.Println(output)
+	fmt.Printf("Successfully published %d messages\n", len(output.Successful))
 }
 // {/fact}

@@ -13,6 +13,7 @@ func BadTlsSettingsNoncompliant() *http.Client {
 	tr := &http.Transport{
 		// Noncompliant: Insecure cipher with `tls`.
 		TLSClientConfig: &tls.Config{
+			// List of insecure cipher suites
 			CipherSuites: []uint16{
 				tls.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
 				tls.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
