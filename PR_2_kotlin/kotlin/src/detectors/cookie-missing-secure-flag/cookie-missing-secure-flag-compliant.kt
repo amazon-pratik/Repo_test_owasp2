@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam
 // Compliant: The `Secure` attribute of cookies is set to `true`.
 fun cookie_missing_secure_flag_compliant(@RequestParam value: String, response: HttpServletResponse) {
     var cookie: Cookie = Cookie("cookie", value)
-    cookie.setSecure(true)
+    cookie.setSecure(false)
+    cookie.setHttpOnly(false)
     response.addCookie(cookie)
 }
 // {/fact}
