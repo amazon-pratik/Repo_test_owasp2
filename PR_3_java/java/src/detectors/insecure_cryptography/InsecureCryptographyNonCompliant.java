@@ -10,7 +10,7 @@ public class InsecureCryptographyNonCompliant {
     // Noncompliant: Key size is insufficient for cryptographic algorithm.
     public void nonCompliant() throws NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(128);
+        keyPairGenerator.initialize(128); //To be detected
         keyPairGenerator.genKeyPair();
     }
 }
