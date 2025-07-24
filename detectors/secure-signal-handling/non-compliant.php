@@ -9,7 +9,7 @@
 function nonCompliant1($param)  {
     $targetPid = (int)$_GET["pid"];
     // Noncompliant: kills the process without validation
-    posix_kill($targetPid, 9);
+    posix_kill($targetPid, 9); // To be detected
 }
 //{/fact}
 ?>
