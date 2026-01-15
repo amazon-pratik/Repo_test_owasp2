@@ -1,0 +1,140 @@
+
+import { exec, spawn } from 'child_process';
+
+// {fact rule=os-command-injection@v1.0 defects=1}
+router.post('/ping', (req: { body: { url: any; }; }, res: { send: (arg0: string) => void; }) => {
+    // ruleid:generic_os_command_exec2
+    exec(`${req.body.url}`, (error) => {
+        if (error) {
+            return res.send('error');
+        }
+        res.send('pong')
+    })
+// {/fact}
+
+
+})
+// {fact rule=os-command-injection@v1.0 defects=1}
+router.post('/gzip', (req: { query: { file_path: string; }; }, res: { send: (arg0: string) => void; }) => {
+    // ruleid:generic_os_command_exec2
+    exec(
+        'gzip ' + req.query.file_path,
+        function (err, data) {
+            console.log('err: ', err)
+            console.log('data: ', data);
+            res.send('done');
+        });
+})
+// {/fact}
+
+// {fact rule=os-command-injection@v1.0 defects=1}
+var child_process = require('child_process');
+var x = 1;
+app.get('/', function (req: { query: { file_path: string; ping: any; }; }, res: { send: (arg0: string) => void; }) {
+    // ruleid:generic_os_command_exec
+    child_process.exec(
+        req.query.file_path,
+        function (err: any, data: any) {
+            console.log('err: ', err)
+            console.log('data: ', data);
+        });
+// {/fact}
+
+// {fact rule=os-command-injection@v1.0 defects=1}
+    // ruleid:generic_os_command_exec
+    child_process.exec('gzip' +
+        req.query.file_path,
+        function (err: any, data: any) {
+            console.log('err: ', err)
+            console.log('data: ', data);
+        });
+// {/fact}
+
+// {fact rule=os-command-injection@v1.0 defects=1}
+    // ruleid:generic_os_command_exec
+    child_process.exec('foobar' +
+        req.query.file_path + "asdD",
+        function (err: any, data: any) {
+            console.log('err: ', err)
+            console.log('data: ', data);
+        });
+// {/fact}
+
+// {fact rule=os-command-injection@v1.0 defects=1}
+    // ruleid:generic_os_command_exec
+    child_process.exec(
+        req.query.file_path + "asdD",
+        function (err: any, data: any) {
+            console.log('err: ', err)
+            console.log('data: ', data);
+        });
+// {/fact}
+
+// {fact rule=os-command-injection@v1.0 defects=1}
+    //Do not detect this
+    child_process.exec(
+        foo + "asdD",
+        function (err: any, data: any) {
+            console.log('err: ', err)
+            console.log('data: ', data);
+        });
+// {/fact}
+
+
+    // ruleid:generic_os_command_exec
+    child_process.execSync(
+        req.query.file_path + 'rsync -avAXz --info=progress2 "/src" "/dest"',
+        { stdio: 'inherit' });
+
+    res.send('Hello World!')
+// {/fact}
+
+
+// {fact rule=os-command-injection@v1.0 defects=1}
+    // ruleid:generic_os_command_exec
+    var foo = req.query.ping;
+    var x;
+    child_process.exec('ping -c 2 ' + foo, function (err: any, data: any) {
+        response.end();
+    });
+})
+// {/fact}
+
+// {fact rule=os-command-injection@v1.0 defects=1}
+var foo = '1';
+require('child_process').exec(foo + 'info=progress2 "/src" "/dest"');
+
+
+const router = require('express').Router();
+import exe from 'child_process';
+
+router.post('/', function (req: { body: { dir: string; }; }, res: { json: (arg0: { message: any; }) => void; status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: any; }): void; new(): any; }; }; }) {
+    // ruleid:generic_os_command_exec
+    exe.exec('ls ' + req.body.dir, function (err: any, data: any) {
+        if (!err) {
+            res.json({ message: data });
+        } else {
+            res.status(500).json({ message: err });
+        }
+    });
+});
+// {/fact}
+
+// {fact rule=os-command-injection@v1.0 defects=1}
+module.exports = router;
+
+
+var http = require("http");
+var url = require("url");
+var exe = require('child_process');
+http.createServer(function (request: { url: any; }, response: { end: () => void; }) {
+    // ruleid:generic_os_command_exec
+    var parsedUrl = url.parse(request.url, true);
+    exe.exec('ping -c 2 ' + parsedUrl.query.ping, function (err: any, data: any) {
+        response.end();
+    });
+
+}).listen(8888);
+// {/fact}
+
+
